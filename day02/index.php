@@ -500,7 +500,12 @@
 
 
   # 17 // Superglobals
-  # 1) Global Variables
+  # $GLOBALS
+  # $_SERVER // headers, paths, and script locations에 대한 정보
+  # $_REQUEST // form, cookie 데이터에서 제출된걸 담고 있음 ($_GET, $_POST, $_COOKIE)
+  # $_POST
+  # $_GET
+  // Global Variables
   $x = 75;
   function myfunction() {
     echo $GLOBALS['x']; echo "<br>"; // global로 선언한 변수를 함수 안에서 그냥 사용할 수 없음
@@ -515,4 +520,56 @@
   }
 
   myfunction2();
+  echo "<br>";
+
+
+  # 18 // Regular Expressions
+  # 1) preg_match()
+  $str = "Visit W3Schools";
+  $pattern = "/w3schools/i"; //i는 case-insensitive하게 만드는 modifier (m은 multiline search, u는 utf-8 encoded pattern과 매칭 가능하게)
+  echo preg_match($pattern, $str);
+  echo "<br>";
+
+  # 2) preg_match_all()
+  $str = "The rain in SPAIN falls mainly on the plains.";
+  $pattern = "/ain/i";
+  echo preg_match_all($pattern, $str);
+  echo "<br>";
+
+  # 3) preg_replace()
+  $str = "Visit Microsoft!";
+  $pattern = "/microsoft/i";
+  echo preg_replace($pattern, "W3Schools", $str);
+  echo "<br>"; echo "<br>";
 ?>
+
+<!-- $_REQUEST, $_GET, $_POST 예시 -->
+<html>
+<body>
+
+<form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
+  Name: <input type="text" name="fname">
+  <input type="submit">
+</form>
+
+<?php
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+  $name = htmlspecialchars($_REQUEST['fname']);
+  if(empty($name)) {
+    echo "Name is empty"; echo "<br>";
+  } else {
+    echo $name; echo "<br>";
+  }
+}
+?>
+
+<a href="demo_phpfile.php?subject=PHP&web=W3school.com"> Test $GET</a>
+
+<form action="welcome_get.php" method="GET">
+  Name: <input type="text" name="name">
+  E-mail: <input type="text" name="email">
+  <button type="submit">제출</button>
+</form>
+
+</body>
+</html>
